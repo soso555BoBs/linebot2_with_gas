@@ -69,11 +69,12 @@ function buildTemplate(params) {
 
   if( num == 1 || (params['op'] && params['op'] == 'others')) {
     var prev = 0;
-    num++;
+    if(num == 1) num++;
     template["actions"] = [];
     for(var i = 0; i < maxOptions; i++) {
       var option = generateRandomOptionNumber(prev);
       var optionHardName = getSelectedHardName(option);
+      if(optionHardName.length > 20) optionHardName = optionHardName.substring(0, 20);
       template["actions"].push({
         "type": "postback",
         "label": optionHardName,
@@ -85,8 +86,10 @@ function buildTemplate(params) {
   }
   else {
     var prevHard = getSelectedHardName(params['answer']);
+    if((prevHard.length + 4) > 20) prevHard = prevHard.substring(0, 16);
     var nextOption = generateRandomOptionNumber(params['answer']);
     var nextOptionHardName = getSelectedHardName(nextOption);
+    if(nextOptionHardName.length > 20) nextOptionHardName = nextOptionHardName.substring(0, 20);
     template["actions"] = [
       {
         "type": "postback",
